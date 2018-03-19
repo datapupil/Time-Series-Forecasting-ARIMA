@@ -43,12 +43,12 @@ plot(smooth.sleep.timeseries,xlab = "Week",ylab = "AvgSleepTime/Day")
 ARIMA MODEL
 -----------
 
-Let us build an ARIMA model to forecast the sleep hours in upcoming days.
-ARIMA model is defined by 3 parameters as,
-**\* AR(Auto Regressive) or p**,
-**\* I(Integrated) or d**,
-**\* MA(Moving average) or q**
-And the basic prerequisite for an ARIMA model is that the data should exhibit **stationarity**.
+Let us build an ARIMA model to forecast the sleep hours in upcoming days.  
+ARIMA model is defined by 3 parameters as,  
+**\* AR(Auto Regressive) or p**,  
+**\* I(Integrated) or d**,  
+**\* MA(Moving average) or q**  
+And the basic prerequisite for an ARIMA model is that the data should exhibit **stationarity**.  
 
 **NOTE:**  
 **Stationarity** - A time series whose mean, variance and autocorrelation structure do not change over time i.e, a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations(Seasonality).
@@ -63,10 +63,10 @@ plot(diff.sleep.timeseries,xlab = "Week")
 ![](Plots/plot-unnamed-chunk-6-1.png)
 
 After first order differentiation, the time series looks stationary where its mean, variance doesnot change over time and hence we are good to build an ARIMA model for this series with the parameter **d=1**. The AR and MA values can be identified based on looking at plots of the autocorrelations and partial autocorrelations.
-**NOTE:**/\
-**Autocorrelation** - Autocorrelation of a time series y at lag k is the correlation between y and itself lagged by k periods, i.e., it is the correlation between y *t* and y *t-k*.
+**NOTE:**  
+**Autocorrelation** - Autocorrelation of a time series y at lag k is the correlation between y and itself lagged by k periods, i.e., it is the correlation between y *t* and y *t-k*.  
 **Partial Autocorrelation** - The partial autocorrelation of y at lag 2 is the amount of correlation between y *t* and y *t-2* that is not already explained by the fact that y *t* is correlated with y *t-1* and y *t-1* is correlated with y *t-2*.
-Plot the autocorrelation and partial autocorrelation using acf() and pacf()
+Plot the autocorrelation and partial autocorrelation using acf() and pacf()  
 
 ``` r
 acf(diff.sleep.timeseries,main="Autocorrelation Plot")
@@ -80,18 +80,18 @@ pacf(diff.sleep.timeseries,main="Partial Autocorrelation Plot")
 
 ![](Plots/plot-unnamed-chunk-7-2.png)
 
-Based on the plots,
-1. The bar at lag1 on the ACF plot is significant(Spike is taller than the 95% statistically significant band) and negative, followed by a fairly sharp cutoff
-2. The PACF plot shows a gradual significant decay pattern from below until lag 5
+Based on the plots,  
+1. The bar at lag1 on the ACF plot is significant(Spike is taller than the 95% statistically significant band) and negative, followed by a fairly sharp cutoff  
+2. The PACF plot shows a gradual significant decay pattern from below until lag 5  
 
-Based on the above observations, we chose either of the below three models,
-**ARMA(p,d,q)**
-We already know d=1,
-**\* ARIMA(0,1,1)** Significant autocorrelation at lag 1, i.e., “MA(q) signature”, hence choose q=1. This model i.e., MA(moving average) model is usually used to model a time series that shows short-term dependencies between successive observations.
-**\* ARMA(5,1,0)** Significant Partial autocorrelation until lag 5, i.e., “AR(p) signature", hence choose p=5. This model i.e., AR(Auto Regressive) model is usually used to model a time series that has its current value, correlated with all the previous ones.
-**\* ARMA(5,1,1)** Considering both ACF and PACF, choose p=5 and q=1
+Based on the above observations, we chose either of the below three models,  
+**ARMA(p,d,q)**  
+We already know d=1,  
+**\* ARIMA(0,1,1)** Significant autocorrelation at lag 1, i.e., “MA(q) signature”, hence choose q=1. This model i.e., MA(moving average) model is usually used to model a time series that shows short-term dependencies between successive observations.  
+**\* ARMA(5,1,0)** Significant Partial autocorrelation until lag 5, i.e., “AR(p) signature", hence choose p=5. This model i.e., AR(Auto Regressive) model is usually used to model a time series that has its current value, correlated with all the previous ones.  
+**\* ARMA(5,1,1)** Considering both ACF and PACF, choose p=5 and q=1  
 
-Let us now fit the first ARIMA model ARIMA(0,1,1),
+Let us now fit the first ARIMA model ARIMA(0,1,1),  
 
 ``` r
 library(forecast)
@@ -110,13 +110,13 @@ sleep.timeseries.arima1
     ## 
     ## sigma^2 estimated as 3691:  log likelihood = -359.93,  aic = 723.86
 
-A residual in forecasting is the difference between an observed value and its forecast based on other observations. To evaluate the ARIMA model, we may follow the below guidlines on its residuals;
-1.Residuals should be uncorrelated
-2.Residuals should have zero mean
-3.Residuals should have constant variance
-4.Reiduals should be normally distributed
+A residual in forecasting is the difference between an observed value and its forecast based on other observations. To evaluate the ARIMA model, we may follow the below guidlines on its residuals;  
+1.Residuals should be uncorrelated  
+2.Residuals should have zero mean  
+3.Residuals should have constant variance  
+4.Reiduals should be normally distributed  
 
-Plot an autocorrelation to conclude residuals are not correlated, if all the spikes are within the statistically significant 95% band.
+Plot an autocorrelation to conclude residuals are not correlated, if all the spikes are within the statistically significant 95% band.  
 
 ``` r
 acf(sleep.timeseries.arima1$residuals,main="Autocorrelation Plot for Residuals")
@@ -140,9 +140,9 @@ hist(sleep.timeseries.arima1$residuals,breaks=IQR(sleep.timeseries.arima1$residu
 
 ![](Plots/plot-unnamed-chunk-11-1.png)
 
-To further test the autocorrelation, we can perform Ljung-Box test using Box.test(), where the resulting p value can be interpreted in the following ways,
-**If p-value &lt; 0.051:** Values are showing dependence on each other i.e. possibility of correlation
-**If p-value &gt; 0.051:** Dependance of values cant be confirmed
+To further test the autocorrelation, we can perform Ljung-Box test using Box.test(), where the resulting p value can be interpreted in the following ways,  
+**If p-value &lt; 0.051:** Values are showing dependence on each other i.e. possibility of correlation  
+**If p-value &gt; 0.051:** Dependance of values cant be confirmed  
 
 ``` r
 Box.test(sleep.timeseries.arima1$residuals,lag=20,type = "Ljung-Box")
@@ -154,8 +154,8 @@ Box.test(sleep.timeseries.arima1$residuals,lag=20,type = "Ljung-Box")
     ## data:  sleep.timeseries.arima1$residuals
     ## X-squared = 21.742, df = 20, p-value = 0.3547
 
-Based on the above tests, We could infer that the mean is non-zero and negative though the variance is uniform and there is no significant autocorrelation found.
-We can iterate the same test process for the next model and validate its fit or we can use auto.arima() function to choose a better model.
+Based on the above tests, We could infer that the mean is non-zero and negative though the variance is uniform and there is no significant autocorrelation found.  
+We can iterate the same test process for the next model and validate its fit or we can use auto.arima() function to choose a better model.  
 
 ``` r
 auto.arima(sleep.timeseries)
@@ -172,11 +172,11 @@ auto.arima(sleep.timeseries)
     ## sigma^2 estimated as 3749:  log likelihood=-359.93
     ## AIC=723.86   AICc=724.05   BIC=728.21
 
-Based on the above tests and also as auto.arima() function has suggested, ARIMA(0,1,1) model is fixed for forecasting the future sleep hours value.
+Based on the above tests and also as auto.arima() function has suggested, ARIMA(0,1,1) model is fixed for forecasting the future sleep hours value.  
 
-forecast() function is used and the parameter 'h' represents the number of future value we would like to forecast.
+forecast() function is used and the parameter 'h' represents the number of future value we would like to forecast.  
 
-Let us choose h=1, which represents that we would like to forecast the average sleep hours per day for next one week.
+Let us choose h=1, which represents that we would like to forecast the average sleep hours per day for next one week.  
 
 ``` r
 forecast.sleep.timeseries.arima1<-forecast(sleep.timeseries.arima1,h=1)
@@ -221,5 +221,5 @@ A basic time series forecasting process has been used to forecast and based on t
 References
 ----------
 
-1.  Using R for Time Series Analysis by Avril Coghlan
+1.  Using R for Time Series Analysis by Avril Coghlan  
 2.  Notes on nonseasonal ARIMA models by Robert Nau
