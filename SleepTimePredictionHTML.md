@@ -27,8 +27,8 @@ plot(sleep.timeseries,xlab = "Week",ylab = "AvgSleepTime/Day")
 
 ![](Plots/plot-unnamed-chunk-4-1.png)
 
-**NOTE:**
-**Trend** - Persistent increase or decrease in the series over a period of time.
+**NOTE:**  
+**Trend** - Persistent increase or decrease in the series over a period of time.  
 **Seasonality** - Recurring regular pattern of up and down fluctuation that occurs each month, each year etc.
 Based on the inference from above graph, it is clear that there is no seasonal component in the data, though there is a very little downwards trend till week 40(approx) and a gradual upward trend after that. This can be clearly seen, if we try to smoothen the data points using the moving average function SMA() in TTR package. SMA() calculates the arithmetic mean of a series over the past n observations.
 
@@ -50,7 +50,7 @@ ARIMA model is defined by 3 parameters as,
 **\* MA(Moving average) or q**
 And the basic prerequisite for an ARIMA model is that the data should exhibit **stationarity**.
 
-**NOTE:**
+**NOTE:**  
 **Stationarity** - A time series whose mean, variance and autocorrelation structure do not change over time i.e, a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations(Seasonality).
 We need to differentiate the series in order to attain stationarity, as our time series exhibits a trend though it does not have any seasonality.
 
