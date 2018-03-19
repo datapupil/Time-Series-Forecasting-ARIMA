@@ -7,7 +7,7 @@ INTRODUCTION
 ------------
 
 This is an effort to forecast a time series and to create a standard process flow for building an ARIMA model. The sample data looks like,
-![alt text](sl.png "Title")
+![](Plots/sl.png)
 
 Read the csv data into R and create a time series object using ts() function
 
