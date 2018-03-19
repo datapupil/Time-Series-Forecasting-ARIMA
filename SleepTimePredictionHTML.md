@@ -63,7 +63,7 @@ plot(diff.sleep.timeseries,xlab = "Week")
 ![](Plots/plot-unnamed-chunk-6-1.png)
 
 After first order differentiation, the time series looks stationary where its mean, variance doesnot change over time and hence we are good to build an ARIMA model for this series with the parameter **d=1**. The AR and MA values can be identified based on looking at plots of the autocorrelations and partial autocorrelations.
-**NOTE:**
+**NOTE:**/\
 **Autocorrelation** - Autocorrelation of a time series y at lag k is the correlation between y and itself lagged by k periods, i.e., it is the correlation between y *t* and y *t-k*.
 **Partial Autocorrelation** - The partial autocorrelation of y at lag 2 is the amount of correlation between y *t* and y *t-2* that is not already explained by the fact that y *t* is correlated with y *t-1* and y *t-1* is correlated with y *t-2*.
 Plot the autocorrelation and partial autocorrelation using acf() and pacf()
